@@ -3,18 +3,22 @@ package exercicecdaauth.utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import exercicecdaauth.model.Role;
-import exercicecdaauth.model.User;
+import exercicecdaauth.model.Utilisateur;
 import exercicecdaauth.repository.RoleRepository;
-import exercicecdaauth.repository.UserRepository;
+import exercicecdaauth.repository.UtilisateurRepository;
 
 @Component
 public class initDb implements ApplicationRunner{
 	
 	@Autowired
-	private UserRepository userRepo;
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private UtilisateurRepository userRepo;
 	
 	@Autowired
 	private RoleRepository roleRepo;
@@ -31,15 +35,15 @@ public class initDb implements ApplicationRunner{
 		Role developpeur = roleRepo.save(new Role("Développeur"));
 		Role infographiste = roleRepo.save(new Role("Infographiste"));
 		
-		User xavier = userRepo.save(new User("Xavier", "Oillic", "MotdePasse"));
+		Utilisateur xavier = userRepo.save(new Utilisateur("Xavier", "Oillic", "MotdePasse"));
 		xavier.getRoles().add(utilisateur);
-		User jean = userRepo.save(new User("Jean", "Grey", "MotDePasse"));
+		Utilisateur jean = userRepo.save(new Utilisateur("Jean", "Grey", "MotDePasse"));
 		jean.getRoles().add(administrateur);
-		User bruce = userRepo.save(new User("Bruce", "Wayne", "MotDePasse"));
+		Utilisateur bruce = userRepo.save(new Utilisateur("Bruce", "Wayne", "MotDePasse"));
 		bruce.getRoles().add(webMaster);
-		User martin = userRepo.save(new User("Martin", "Scorcese", "MotDePasse"));
+		Utilisateur martin = userRepo.save(new Utilisateur("Martin", "Scorcese", "MotDePasse"));
 		martin.getRoles().add(developpeur);
-		User idriss = userRepo.save(new User("Idriss", "Elba", "MotDePasse"));
+		Utilisateur idriss = userRepo.save(new Utilisateur("Idriss", "Elba", "MotDePasse"));
 		idriss.getRoles().add(infographiste);
 		
 		}

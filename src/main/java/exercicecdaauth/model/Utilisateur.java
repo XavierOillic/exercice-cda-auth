@@ -18,17 +18,17 @@ import lombok.RequiredArgsConstructor;
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class User {
+public class Utilisateur {
 	
 	@Id
 	private String login;
 	
 	@NonNull
-	@Field("Prénom")
+	@Field("Prénom :")
 	private String prenom;
 	
 	@NonNull
-	@Field("Nom")
+	@Field("Nom :")
 	private String nom;
 	
 	@DocumentReference

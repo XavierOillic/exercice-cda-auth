@@ -14,15 +14,15 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import exercicecdaauth.model.Role;
-import exercicecdaauth.model.User;
+import exercicecdaauth.model.Utilisateur;
 import exercicecdaauth.repository.RoleRepository;
-import exercicecdaauth.repository.UserRepository;
+import exercicecdaauth.repository.UtilisateurRepository;
 
 @SpringBootTest
 class ExerciceCdaAuthApplicationTests {
 	
 	@Autowired
-	private UserRepository userRepo;
+	private UtilisateurRepository userRepo;
 	
 	@Autowired 
 	private RoleRepository roleRepo;
@@ -41,15 +41,15 @@ class ExerciceCdaAuthApplicationTests {
 		Role developpeur = roleRepo.save(new Role("Développeur"));
 		Role infographiste = roleRepo.save(new Role("Infographiste"));
 		
-		User xavier = userRepo.save(new User("Xavier", "Oillic", "MotdePasse"));
+		Utilisateur xavier = userRepo.save(new Utilisateur("Xavier", "Oillic", "MotdePasse"));
 		xavier.getRoles().add(utilisateur);
-		User jean = userRepo.save(new User("Jean", "Grey", "MotDePasse"));
+		Utilisateur jean = userRepo.save(new Utilisateur("Jean", "Grey", "MotDePasse"));
 		jean.getRoles().add(administrateur);
-		User bruce = userRepo.save(new User("Bruce", "Wayne", "MotDePasse"));
+		Utilisateur bruce = userRepo.save(new Utilisateur("Bruce", "Wayne", "MotDePasse"));
 		bruce.getRoles().add(webMaster);
-		User martin = userRepo.save(new User("Martin", "Scorcese", "MotDePasse"));
+		Utilisateur martin = userRepo.save(new Utilisateur("Martin", "Scorcese", "MotDePasse"));
 		martin.getRoles().add(developpeur);
-		User idriss = userRepo.save(new User("Idriss", "Elba", "MotDePasse"));
+		Utilisateur idriss = userRepo.save(new Utilisateur("Idriss", "Elba", "MotDePasse"));
 		idriss.getRoles().add(infographiste);
 		
 		userRepo.save(xavier);
@@ -73,7 +73,7 @@ class ExerciceCdaAuthApplicationTests {
 	
 	@Test
 	void findAll() {
-		for (User u : userRepo.findAll()) {
+		for (Utilisateur u : userRepo.findAll()) {
 			System.out.println(u);
 		}
 	}
@@ -105,20 +105,20 @@ class ExerciceCdaAuthApplicationTests {
 		Query query = new Query();
 		
 		query.addCriteria(Criteria.where("Prenom").regex("Xavier").andOperator(Criteria.where("Oillique").ne(false)));
-		assertEquals("Xavier", mongoTemp.find(query, User.class).get(0).getPrenom());
+		assertEquals("Xavier", mongoTemp.find(query, Utilisateur.class).get(0).getPrenom());
 	}
 	@Test
 	void testTemplateQuery2 () {
 		Query query = new Query();
 		
 		query.addCriteria(Criteria.where("Nom").regex("Grey").andOperator(Criteria.where("Grey").ne(true)));
-		assertEquals("Grey", mongoTemp.find(query, User.class).get(0).getNom());
+		assertEquals("Grey", mongoTemp.find(query, Utilisateur.class).get(0).getNom());
 	}
 	
 	@Test
 	void testRelation () {
 		
-		User ironMan = userRepo.save(new User("IronMan", "Stark", "MotDePasse"));
+		Utilisateur ironMan = userRepo.save(new Utilisateur("IronMan", "Stark", "MotDePasse"));
 		
 		Role r1 = roleRepo.save(new Role("role1"));
 		Role r2 = roleRepo.save(new Role("role2"));
