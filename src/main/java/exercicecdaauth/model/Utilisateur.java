@@ -21,6 +21,10 @@ import lombok.RequiredArgsConstructor;
 public class Utilisateur {
 	
 	@Id
+	private String id;
+	
+	@NonNull
+	@Indexed(unique = true)
 	private String login;
 	
 	@NonNull
@@ -33,7 +37,7 @@ public class Utilisateur {
 	
 	@DocumentReference
 	//@NonNull ==> Je fais le .GET().ADD("") donc pas besoin du @NonNull.
-	private Set<Role> roles = new HashSet<>();
+	private Set<Role> roles = new HashSet<>(); // Le set empêche les doublons.
 	
 	@NonNull
 	private String PasswordHash;

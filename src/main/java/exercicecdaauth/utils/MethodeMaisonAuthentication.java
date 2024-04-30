@@ -38,13 +38,15 @@ public class MethodeMaisonAuthentication  implements AuthenticationProvider{
 		
 		final String name = authentication.getName();
 		final String password = authentication.getCredentials().toString();
+		// Je récupère l'ip et le user en plus, mais pas tout le temps util.
 		final String ip = request.getRemoteAddr();
 		final String user = request.getHeader("nom");
 		
-		if (userRepo.findByLogin(name) == null) {
+		if (userRepo.findByLogin(name).isEmpty()) {
 			log.warn("Unknown user : "+name+" ; IP : "+ip+" ; "+user);
 			throw new UtilisateurInconnuException(name);
 		}
+		// Je vérifie que le repo est peuplé. Sinon, message d'erreur.
 		
 		Utilisateur targetPerson = userRepo.findByLogin(name).get();
 		
@@ -52,16 +54,21 @@ public class MethodeMaisonAuthentication  implements AuthenticationProvider{
 			log.warn("Mauvais Mot de passe pour "+name+" , IP:"+ip+" "+user);
 			throw new MauvaisPasswordException(name);
 		}
+		// Je vérifie que le mot de passe est bon "MATCHES" pour CETTE personne.
+		
 		final List<GrantedAuthority> grantedAuths = new ArrayList<>();
+		// Je crée une LIST de person Autorisée
 		
 		for (Role r: targetPerson.getRoles()) {
 			grantedAuths.add(new SimpleGrantedAuthority(r.getLabel()));
 		}
+		// je vais chercher à LISTER toutes ces personnes autorisées.
 		
 		
 		log.info("Authentification OK pour "+name+" ; IP : "+ip+" "+user);
 		
-		return new UsernamePasswordAuthenticationToken(name, password);
+		return new UsernamePasswordAuthenticationToken(name, password, grantedAuths);
+		// Je renvoie 
 	}
 
 	@Override

@@ -23,6 +23,7 @@ public class Role {
 	
 	@NonNull
 	@Field("T'es qui toi ?")
+	@Indexed(unique = true)
 	private String label;
 	
 }

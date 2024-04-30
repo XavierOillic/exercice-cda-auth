@@ -41,15 +41,15 @@ class ExerciceCdaAuthApplicationTests {
 		Role developpeur = roleRepo.save(new Role("Développeur"));
 		Role infographiste = roleRepo.save(new Role("Infographiste"));
 		
-		Utilisateur xavier = userRepo.save(new Utilisateur("Xavier", "Oillic", "MotdePasse"));
+		Utilisateur xavier = userRepo.save(new Utilisateur("Zazou", "Xavier", "Oillic", "MotdePasse"));
 		xavier.getRoles().add(utilisateur);
-		Utilisateur jean = userRepo.save(new Utilisateur("Jean", "Grey", "MotDePasse"));
+		Utilisateur jean = userRepo.save(new Utilisateur("jeanjean", "Jean", "Grey", "MotDePasse"));
 		jean.getRoles().add(administrateur);
-		Utilisateur bruce = userRepo.save(new Utilisateur("Bruce", "Wayne", "MotDePasse"));
+		Utilisateur bruce = userRepo.save(new Utilisateur("Batman", "Bruce", "Wayne", "MotDePasse"));
 		bruce.getRoles().add(webMaster);
-		Utilisateur martin = userRepo.save(new Utilisateur("Martin", "Scorcese", "MotDePasse"));
+		Utilisateur martin = userRepo.save(new Utilisateur("Réal","Martin", "Scorcese", "MotDePasse"));
 		martin.getRoles().add(developpeur);
-		Utilisateur idriss = userRepo.save(new Utilisateur("Idriss", "Elba", "MotDePasse"));
+		Utilisateur idriss = userRepo.save(new Utilisateur("Acteur","Idriss", "Elba", "MotDePasse"));
 		idriss.getRoles().add(infographiste);
 		
 		userRepo.save(xavier);
@@ -118,7 +118,7 @@ class ExerciceCdaAuthApplicationTests {
 	@Test
 	void testRelation () {
 		
-		Utilisateur ironMan = userRepo.save(new Utilisateur("IronMan", "Stark", "MotDePasse"));
+		Utilisateur ironMan = userRepo.save(new Utilisateur("IronMan", "tony","Stark", "MotDePasse"));
 		
 		Role r1 = roleRepo.save(new Role("role1"));
 		Role r2 = roleRepo.save(new Role("role2"));
@@ -130,7 +130,8 @@ class ExerciceCdaAuthApplicationTests {
 		userRepo.save(ironMan);
 		// Je sauvegarde.
 		
-		assertEquals(2, userRepo.findByPrenom("IronMan").getRoles().size());
+		assertEquals(2, userRepo.findByLogin("IronMan").get().getRoles().size());
+		// Le .get() vient de l'OPTIONAL du REPOSITORY.
 	}
 	
 

@@ -29,22 +29,34 @@ public class initDb implements ApplicationRunner{
 		userRepo.deleteAll();
 		roleRepo.deleteAll();
 		
-		Role utilisateur = roleRepo.save(new Role("Utilisateur"));
-		Role administrateur = roleRepo.save(new Role("Administrateur"));
-		Role webMaster = roleRepo.save(new Role("Webmaster"));
-		Role developpeur = roleRepo.save(new Role("Développeur"));
-		Role infographiste = roleRepo.save(new Role("Infographiste"));
+		final String mdp = "xavier"; 
+		// Je variabilise le mot de passe.
 		
-		Utilisateur xavier = userRepo.save(new Utilisateur("Xavier", "Oillic", "MotdePasse"));
-		xavier.getRoles().add(utilisateur);
-		Utilisateur jean = userRepo.save(new Utilisateur("Jean", "Grey", "MotDePasse"));
-		jean.getRoles().add(administrateur);
-		Utilisateur bruce = userRepo.save(new Utilisateur("Bruce", "Wayne", "MotDePasse"));
-		bruce.getRoles().add(webMaster);
-		Utilisateur martin = userRepo.save(new Utilisateur("Martin", "Scorcese", "MotDePasse"));
-		martin.getRoles().add(developpeur);
-		Utilisateur idriss = userRepo.save(new Utilisateur("Idriss", "Elba", "MotDePasse"));
-		idriss.getRoles().add(infographiste);
+		//ROLES :
+		Role admin = roleRepo.save(new Role("ROLE_ADMIN"));
+		Role user = roleRepo.save(new Role("ROLE_USER"));
+		
+		roleRepo.save(new Role("ROLE_XMEN"));
+		roleRepo.save(new Role("ROLE_DC"));
+		
+		
+		//UTILISATEURS : 
+		Utilisateur xavier = userRepo.save(new Utilisateur("zazou", "Xavier", "Oillic", passwordEncoder.encode(mdp)));
+		xavier.getRoles().add(user);
+		xavier.getRoles().add(admin);
+		
+		Utilisateur jean = userRepo.save(new Utilisateur("phoenix", "Jean", "Grey", "xmen"));
+		jean.getRoles().add(roleRepo.findByLabel("ROLE_XMEN").orElseThrow());
+		
+		Utilisateur bruce = userRepo.save(new Utilisateur("batman", "Bruce", "Wayne", "dc"));
+		bruce.getRoles().add(roleRepo.findByLabel("ROLE_DC").orElseThrow());
+	
+		
+		
+		// Je Sauvegarde mes USERS dans la DataBase MongoDB.
+		userRepo.save(xavier);
+		userRepo.save(jean);
+		userRepo.save(bruce);
 		
 		}
 			

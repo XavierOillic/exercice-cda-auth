@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringBootApplication
 public class ExerciceCdaAuthApplication {
 	
-	@Bean
+	@Bean // Importa,nt de ne pas l'oublier pour rendre dispo PasswordEncoder !
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
